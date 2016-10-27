@@ -34,8 +34,8 @@ def main_menu()
 end
 
 def answer_questions()
-	@possible_answers[:custom] << @possible_answers[:default]
-	@possible_answers[:custom].flatten!.uniq!
+	@possible_answers[:working] << @possible_answers[:default]
+	@possible_answers[:working].flatten!.uniq!
 	puts "\nAsk me any question... or type 'done' to return to the main menu."
 	user_question = gets.strip.downcase
 	case user_question
@@ -45,7 +45,7 @@ def answer_questions()
 		custom_answers()
 		answer_questions()
 	when "reset_answers"
-		@possible_answers[:custom] = []
+		@possible_answers[:working] = []
 		puts "\nCustom answers cleared!"
 	when "print_answers"
 		print_answers()
@@ -54,7 +54,7 @@ def answer_questions()
 			if @possible_answers.has_key? user_question
 				puts "\n~ Magic 8 Ball says: #{@possible_answers[user_question]}\n"
 			else
-				puts "\n~ Magic 8 Ball says: #{@possible_answers[:custom].sample}\n"
+				puts "\n~ Magic 8 Ball says: #{@possible_answers[:working].sample}\n"
 			end
 			answer_questions()
 		else
@@ -77,26 +77,26 @@ end
 		"Signs point to yes.",
 		"Very doubtful."
 		],
-	custom: []
+	working: []
 }
 
 def print_answers ()
 	puts "\nCurrent answers:"
-	puts @possible_answers[:custom]
+	puts @possible_answers[:working]
 	puts
 end
 
 def custom_answers()
 	puts "\nFine! Make your own."
 	puts "\nCurrent answers:"
-	puts @possible_answers[:custom]
+	puts @possible_answers[:working]
 	print "\nEnter your own answer: "
 	new_answer = gets.strip
 	if new_answer.downcase == "reset_answers"
-		@possible_answers[:custom] = []
+		@possible_answers[:working] = []
 		puts "\nCustom answers cleared!"
 	else
-		@possible_answers[:custom] << new_answer
+		@possible_answers[:working] << new_answer
 		puts "#{new_answer} has been added!"
 	end
 end
