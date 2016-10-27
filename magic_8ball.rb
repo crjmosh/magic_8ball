@@ -15,16 +15,21 @@
 # - ability to have eight ball print all answers
 # - via easter egg question ("print_answers")
 
+@history = []
+
 def main_menu()
 	puts "\n~~~ MAGIC 8 BALL ~~~"
 	puts "Main Menu:"
 	puts "1. Get Started"
-	puts "2. Exit"
+	puts "2. View History"
+	puts "3. Exit"
 	print "Enter Selection: "
 	case gets.strip.downcase
 	when "1", "start", "get started"
 		answer_questions()
-	when "2", "exit"
+	when "2", "history", "view history"
+		view_history()
+	when "3", "exit"
 		puts "\nThanks for using MAGIC 8 BALL!\n\n"
 		exit
 	else
@@ -52,9 +57,15 @@ def answer_questions()
 	else
 		if user_question.include? "?"
 			if @possible_answers.has_key? user_question
-				puts "\n~ Magic 8 Ball says: #{@possible_answers[user_question]}\n"
+				answer = "\n~ Magic 8 Ball says: #{@possible_answers[user_question]}\n"
+				puts answer
+				combined_answer = "#{user_question} #{answer}"
+				@history << combined_answer
 			else
-				puts "\n~ Magic 8 Ball says: #{@possible_answers[:working].sample}\n"
+				answer = "\n~ Magic 8 Ball says: #{@possible_answers[:working].sample}\n"
+				puts answer
+				combined_answer = "#{user_question} #{answer}"
+				@history << combined_answer
 			end
 			answer_questions()
 		else
@@ -98,6 +109,14 @@ def custom_answers()
 	else
 		@possible_answers[:working] << new_answer
 		puts "#{new_answer} has been added!"
+	end
+end
+
+def view_history()
+	@history.each do |item|
+		puts
+		puts item
+		puts
 	end
 end
 
